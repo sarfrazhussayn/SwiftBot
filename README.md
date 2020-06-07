@@ -52,7 +52,7 @@ if "keytool" is not found, use,
 
 3) .keystore file has been generated. To attach it with the unsigned apk, use the "OutSign" software. Path to the JDK file: <code>C:\Program Files\Java\jdk1.8.0_144\bin</code>
 
-##Files Related to Facial Recognition (Server Side):
+## Files Related to Facial Recognition (Server Side):
 
 1. Make Sure that <code>Python-Pip</code> is installed on the Machine. This tutorial can be followed on a Windows Machine with a valid Python installation [https://www.liquidweb.com/kb/install-pip-windows/].
 
