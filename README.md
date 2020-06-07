@@ -51,3 +51,33 @@ if "keytool" is not found, use,
 2) <code>"C:\Program Files\Java\jre1.8.0_151\bin\keytool.exe" -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg RSA -keysize 2048 -validity 10000</code>
 
 3) .keystore file has been generated. To attach it with the unsigned apk, use the "OutSign" software. Path to the JDK file: <code>C:\Program Files\Java\jdk1.8.0_144\bin</code>
+
+##Files Related to Facial Recognition (Server Side):
+
+1. Make Sure that <code>Python-Pip</code> is installed on the Machine. This tutorial can be followed on a Windows Machine with a valid Python installation [https://www.liquidweb.com/kb/install-pip-windows/].
+
+2. using pip in the cmd environment further dependency libraries need to be installed [https://packaging.python.org/tutorials/installing-packages/]
+    a. Scikit-learn (```pip install scikit-learn```)
+    b. NumPy (```pip install numpy```)
+    c. OpenCV (```pip install cv2```)
+    d. Flask (```pip install flask```)
+
+3. Now to overcome any discrepency in the trained dataset the module should be retrained over the current dependencies. 
+For this step, open a cmd prompt and run ```python extract_embeddings.py``` should be run, afterwards ```python train_model.py``` should be run.
+
+4. After these two files are successfully executed, the folder "<code>./dataset</code> will have folders of people who are recognizable by the system. 
+
+After this, the Server should be run on the local device, the port number is customizable in the script "Server.py"
+
+5. Installing ngrok (For port forwarding of the server running on localhost)
+Setting up on a windows machine:
+
+    a. Download the ngrok ZIP file.
+    b. Unzip the ngrok.exe file.
+    c. Place the ngrok.exe in a folder of your choosing.
+    d. Make sure the folder is in your PATH environment variable.
+
+ For Linux machines:
+ The ngrok can be installed via terminal ```sudo apt-get install ngrok``` on Debian based systems, while ```sudo pacman -S  ngrok``` on arch based systems directly.
+
+6. After the server has been successfully set up the robot can start communicating with the server, to successfully run facial recognition for robot payload security.
