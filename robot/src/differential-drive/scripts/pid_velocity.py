@@ -54,6 +54,7 @@ class PidVelocity():
         self.then = rospy.Time.now()
         self.wheel_mult = 0
         self.prev_encoder = 0
+	self.avg = [0,0,0,0] #get values to calculate average 
         
         ### get parameters #### 
         self.Kp = rospy.get_param('~Kp',10)
@@ -161,7 +162,7 @@ class PidVelocity():
         self.vel = p.mean()
     #####################################################
 
-    def translate(self,value,leftMin=1,leftMax=255,rightMax=255,rightMin=30):
+    def translate(self,value,leftMin=1,leftMax=255,rightMax=255,rightMin=90):
         leftSpan=leftMax-leftMin
 	rightSpan=rightMax-rightMin
 	valueScaled=float(value-leftMin)/float(leftSpan)
@@ -194,7 +195,14 @@ class PidVelocity():
 	    self.motor=-self.translate(-self.motor)
 	elif self.motor>0:
 	    self.motor=self.translate(self.motor)
-
+	#self.avg.append(self.motor) #append pwm value to avg list
+	#if self.motor == 0:
+	#	if sum(self.avg[-4:-1])==0:
+	#		self.motor=self.avg[-2]
+	#nums = self.avg
+	#avg = sum(nums)/5 #calculate average
+	#self.motor = avg
+	#self.avg.pop(0) #remove first element to reset list size to 4
         rospy.logdebug("vel:%0.2f tar:%0.2f err:%0.2f int:%0.2f der:%0.2f ## motor:%d " % 
                       (self.vel, self.target, self.error, self.integral, self.derivative, self.motor))
     

@@ -1,10 +1,14 @@
 <launch>
-
+<arg name="map_file" default=" /home/ubuntu/sameer_house.yaml"/>
+<node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)">
+    <param name="frame_id" type="str" value="map"/>
+</node>
+<include file="$(find amcl)/examples/amcl_diff.launch"/>
 <rosparam param="ticks_meter">17825</rosparam>
 <node pkg="differential_drive" type="diff_tf.py" name="odometry" output="screen">
 	<remap from="lwheel" to="left_encoder" />
 	<remap from="rwheel" to="right_encoder" />
-	<rosparam param="base_width">0.195</rosparam>
+	<rosparam param="base_width">0.40</rosparam>
 	<rosparam param="odom_frame_id" subst_value="True" > "/odom" </rosparam>
 	<rosparam param="base_frame_id" subst_value="True"> "/base_link" </rosparam>
 	<rosparam param="global_frame_id" subst_value="True"> "/map" </rosparam>
@@ -15,39 +19,41 @@
 	<remap from="motor_cmd" to= "left_pwm"/>
 	<remap from="wheel_vtarget" to= "left_target"/>
 	<remap from="wheel_vel" to= "left_actual"/>
-	<rosparam param="Kp">480</rosparam>
-	<rosparam param="Ki">250</rosparam>
-	<rosparam param="Kd">18</rosparam>
+	<rosparam param="Kp">400</rosparam>
+	<rosparam param="Ki">10</rosparam>
+	<rosparam param="Kd">1</rosparam>
 	<rosparam param="out_min">-255</rosparam >
 	<rosparam param="out_max">255</rosparam >
 	<rosparam param="rate">40</rosparam >
 	<rosparam param="timeout_ticks">4</rosparam>
 	<rosparam param="rolling_pts">5</rosparam>
 </node>
+
 <node pkg="differential_drive" type="pid_velocity.py" name="rpid">
 	<remap from="wheel" to="right_encoder"/>
 	<remap from="motor_cmd" to="right_pwm"/>
 	<remap from="wheel_vtarget" to="right_target"/>
 	<remap from="wheel_vel" to="right_actual"/>
-	<rosparam param="Kp">480</rosparam>
-	<rosparam param="Ki">250</rosparam>
-	<rosparam param="Kd">18</rosparam>
+	<rosparam param="Kp">450</rosparam>
+	<rosparam param="Ki">10</rosparam>
+	<rosparam param="Kd">1</rosparam>
 	<rosparam param="out_min">-255</rosparam>
 	<rosparam param="out_max">255</rosparam>
 	<rosparam param="rate">40</rosparam>
 	<rosparam param="timeout_ticks">4</rosparam>
 	<rosparam param="rolling_pts">5</rosparam>
 </node>
+
 <node pkg="differential_drive" type="twist_to_motors.py" name="twist" output="screen">
 	<remap from="twist" to="cmd_vel"/>
 	<remap from="lwheel_vtarget" to="left_target"/>
 	<remap from="rwheel_vtarget" to="right_target"/>
-	<rosparam param="base_weight">0.195</rosparam>
+	<rosparam param="base_width">0.40</rosparam>
 </node>
 <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
 	<param name="port" value="/dev/ttyACM0"/>
 	<param name="baud" value="57600"/>
 </node>
 
-<node pkg="tf" type="static_transform_publisher" name="laser_transform" args="0 0 0.14 0 0 0 base_link laser 100"/>
+<node pkg="tf" type="static_transform_publisher" name="laser_transform" args="0 0 0.14 4.71 0 0 base_link laser 100"/>
 </launch> 

@@ -13,6 +13,5 @@ TrajectoryPlannerROS:
   holonomic_robot: false
   meter_scoring: true
   xy_goal_tolerance: 0.15
-  yaw_goal_tolerance: 0.3
-  latch_xy_goal_tolerance: true
+  yaw_goal_tolerance: 1.7
 
